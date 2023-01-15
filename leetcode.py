@@ -3,7 +3,8 @@ import time
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import StaleElementReferenceException
-
+import json
+outfile = open("sample.json", "w") 
 
 PATH = "/Users/czhang3/Desktop/chromedriver_mac64/chromedriver"
 driver = webdriver.Chrome(PATH)
@@ -67,7 +68,7 @@ page_total = 0
 children = page_button.find_elements_by_xpath("./child::*")
 for x in children:
     page_total+=1
-print(page_total)
+# print(page_total)
 
 tableRows_Prefix="/html/body/div[1]/div/div[2]/div[1]/div[1]/div[6]/div[2]/div/div/div[2]/div["
 problem_title_End = "]/div[2]/div/div/div/div/a"
@@ -94,15 +95,17 @@ while page in range(1, lastPage+1):
             i+=1
             continue
         problem_title_xpath = tableRows_Prefix+str(i)+problem_title_End
-        problem_title = driver.find_element(by=By.XPATH, value=problem_title_xpath)
-        print(problem_title.text)
-        problem_link = problem_title.get_attribute('href')
+        problem_location = driver.find_element(by=By.XPATH, value=problem_title_xpath)
+        problem_title = problem_location.text
+        print(problem_title)
+        problem_link = problem_location.get_attribute('href')
         print(problem_link)
         # time.sleep(2)
         difficulty_xpath = tableRows_Prefix+str(i)+difficulty_End
         # print(difficulty_xpath)
-        difficulty = driver.find_element(by=By.XPATH, value=difficulty_xpath)
-        print(difficulty.text)
+        difficulty_location = driver.find_element(by=By.XPATH, value=difficulty_xpath)
+        difficulty = difficulty_location.text
+        print(difficulty)
     
         # time.sleep(2)
         cssSelector = svgPrefix + str(i) + svgEnd
@@ -128,17 +131,24 @@ while page in range(1, lastPage+1):
         dates_endpath = "]/div[1]/div[1]/span"
         submissionRows = driver.find_elements(by=By.XPATH, value="/html/body/div[1]/div/div/div/div/div/div[1]/div/div/div/div[2]/div/div[2]/div")
         submission_count = 0
+        problem_string = '{"title": "' + problem_title + '", "link": "' + problem_link + '", "difficulty": "' + difficulty + '", "status": "' + status + '", "submission_history": ['
         for s in submissionRows:
             # submission = s.find_element(by=By.XPATH, value=".//div[1]/div[1]/div/div/span")
             # print(submission.text)
             try:
                 submission_count += 1
                 submission_path = submission_prefix + str(submission_count)+ submission_endpath
-                submission = s.find_element(by=By.XPATH, value=submission_path)
-                print(submission.text)
+                submission_location = s.find_element(by=By.XPATH, value=submission_path)
+                submission = submission_location.text
+                print(submission)
                 dates_path = submission_prefix + str(submission_count)+ dates_endpath
-                dates = driver.find_element(by=By.XPATH, value=dates_path)
-                print(dates.text)
+                dates_location = driver.find_element(by=By.XPATH, value=dates_path)
+                dates = dates_location.text
+                print(dates)
+                if(submission_count == 1) :
+                    problem_string = problem_string + '{"submission_status" :"' + submission +'", "submission_time": "' + dates + '"}'
+                else:
+                    problem_string = problem_string + ',{"submission_status" :"' + submission +'", "submission_time": "' + dates + '"}'
             except NoSuchElementException:
                 break
             except StaleElementReferenceException:
@@ -147,6 +157,15 @@ while page in range(1, lastPage+1):
         print(submission_count)
         # back_svg = driver.find_element(By.CSS_SELECTOR,"#__next > div > div > div > nav > div > div > div.absolute.left-\[50\%\].hidden.-translate-x-2\/4.items-center.space-x-4.lc-md\:flex > div.flex.cursor-pointer.items-center.space-x-2 > svg")
         # back_svg.click()
+        problem_string = problem_string + '], "submission_times": "' + str(submission_count)+'"}' 
+        print(problem_string)
+        # print(type(problem_string))
+        dictionary = json.loads(problem_string)
+        print(dictionary)
+        # print(type(json_object))
+        json_object = json.dumps(dictionary, indent=4)
+        outfile.write(json_object)
+        
         driver.back()
         time.sleep(3)
         driver.back()
@@ -184,7 +203,7 @@ page_total = 0
 children = page_button.find_elements_by_xpath("./child::*")
 for x in children:
     page_total+=1
-print(page_total)
+# print(page_total)
 
 tableRows_Prefix="/html/body/div[1]/div/div[2]/div[1]/div[1]/div[6]/div[2]/div/div/div[2]/div["
 problem_title_End = "]/div[2]/div/div/div/div/a"
@@ -211,15 +230,17 @@ while page in range(1, lastPage+1):
             i+=1
             continue
         problem_title_xpath = tableRows_Prefix+str(i)+problem_title_End
-        problem_title = driver.find_element(by=By.XPATH, value=problem_title_xpath)
-        print(problem_title.text)
-        problem_link = problem_title.get_attribute('href')
+        problem_location = driver.find_element(by=By.XPATH, value=problem_title_xpath)
+        problem_title = problem_location.text
+        print(problem_title)
+        problem_link = problem_location.get_attribute('href')
         print(problem_link)
         # time.sleep(2)
         difficulty_xpath = tableRows_Prefix+str(i)+difficulty_End
         # print(difficulty_xpath)
-        difficulty = driver.find_element(by=By.XPATH, value=difficulty_xpath)
-        print(difficulty.text)
+        difficulty_location = driver.find_element(by=By.XPATH, value=difficulty_xpath)
+        difficulty = difficulty_location.text
+        print(difficulty)
     
         # time.sleep(2)
         cssSelector = svgPrefix + str(i) + svgEnd
@@ -245,17 +266,24 @@ while page in range(1, lastPage+1):
         dates_endpath = "]/div[1]/div[1]/span"
         submissionRows = driver.find_elements(by=By.XPATH, value="/html/body/div[1]/div/div/div/div/div/div[1]/div/div/div/div[2]/div/div[2]/div")
         submission_count = 0
+        problem_string = '{"title": "' + problem_title + '", "link": "' + problem_link + '", "difficulty": "' + difficulty + '", "status": "' + status + '", "submission_history": ['
         for s in submissionRows:
             # submission = s.find_element(by=By.XPATH, value=".//div[1]/div[1]/div/div/span")
             # print(submission.text)
             try:
                 submission_count += 1
                 submission_path = submission_prefix + str(submission_count)+ submission_endpath
-                submission = s.find_element(by=By.XPATH, value=submission_path)
-                print(submission.text)
+                submission_location = s.find_element(by=By.XPATH, value=submission_path)
+                submission = submission_location.text
+                print(submission)
                 dates_path = submission_prefix + str(submission_count)+ dates_endpath
-                dates = driver.find_element(by=By.XPATH, value=dates_path)
-                print(dates.text)
+                dates_location = driver.find_element(by=By.XPATH, value=dates_path)
+                dates = dates_location.text
+                print(dates)
+                if(submission_count == 1) :
+                    problem_string = problem_string + '{"submission_status" :"' + submission +'", "submission_time": "' + dates + '"}'
+                else:
+                    problem_string = problem_string + ',{"submission_status" :"' + submission +'", "submission_time": "' + dates + '"}'
             except NoSuchElementException:
                 break
             except StaleElementReferenceException:
@@ -264,11 +292,19 @@ while page in range(1, lastPage+1):
         print(submission_count)
         # back_svg = driver.find_element(By.CSS_SELECTOR,"#__next > div > div > div > nav > div > div > div.absolute.left-\[50\%\].hidden.-translate-x-2\/4.items-center.space-x-4.lc-md\:flex > div.flex.cursor-pointer.items-center.space-x-2 > svg")
         # back_svg.click()
+        problem_string = problem_string + '], "submission_times": "' + str(submission_count)+'"}' 
+        print(problem_string)
+        # print(type(problem_string))
+        dictionary = json.loads(problem_string)
+        print(dictionary)
+        # print(type(json_object))
+        json_object = json.dumps(dictionary, indent=4)
+        outfile.write(json_object)
+        
         driver.back()
         time.sleep(3)
         driver.back()
         time.sleep(3)
- 
         i+=1
         time.sleep(3)
     if (page == lastPage):
@@ -278,6 +314,4 @@ while page in range(1, lastPage+1):
     page_button.click()
     time.sleep(3)
     page+=1
-
-
 
