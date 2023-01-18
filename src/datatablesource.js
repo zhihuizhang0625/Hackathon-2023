@@ -1,4 +1,12 @@
+import { useContext, useEffect, useState } from "react";
+
+import Airtable from "airtable";
+
+const base = new Airtable({apiKey: 'keyQ0V1l9vBkHkLev'}).base('appJQ2e3Bms1nlD3B');
+
+
 export const userColumns = [
+  
   { field: "id", headerName: "ID", width: 70 },
   {
     field: "problem",
