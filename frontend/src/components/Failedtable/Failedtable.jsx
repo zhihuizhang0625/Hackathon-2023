@@ -1,10 +1,10 @@
-import "./datatable.scss";
+import "./Failedtable.scss";
 import { DataGrid } from "@mui/x-data-grid";
 import { userColumns, userRows } from "../../datatablesource";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 
-const Datatable = () => {
+const Failedtable = () => {
   const [data, setData] = useState(userRows);
 
   const handleDelete = (id) => {
@@ -36,7 +36,7 @@ const Datatable = () => {
   return (
     <div className="datatable">
       <div className="datatableTitle">
-        Problem History
+        Failed Problems
         <Link to="/users/new" className="link">
           Add New
         </Link>
@@ -53,4 +53,4 @@ const Datatable = () => {
   );
 };
 
-export default Datatable;
+export default Failedtable;

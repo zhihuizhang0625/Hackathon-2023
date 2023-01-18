@@ -1,9 +1,9 @@
-import "./list.scss"
+import "./Failedlist.scss"
 import Sidebar from "../../components/sidebar/Sidebar"
 import Navbar from "../../components/navbar/Navbar"
 import Failedtable from "../../components/Failedtable/Failedtable"
 
-const List = () => {
+const FailedList = () => {
   return (
     <div className="Failedlist">
       <Sidebar/>
@@ -15,4 +15,4 @@ const List = () => {
   )
 }
 
-export default List
+export default FailedList

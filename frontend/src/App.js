@@ -1,6 +1,7 @@
 import Home from "./pages/home/Home";
 import Login from "./pages/login/Login";
 import List from "./pages/list/List";
+import FailedList from "./pages/Failedlist/Failedlist";
 import Single from "./pages/single/Single";
 import New from "./pages/new/New";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -29,23 +30,24 @@ function App() {
 
             <Route path="login" element={<Login />} />
 
-            <Route path="users">
-              <Route index element={<List />} />
-              <Route path=":userId" element={<Single />} />
-              <Route
-                path="new"
-                element={<New inputs={userInputs} title="Add Leetcode Problem" />}
-              />
-            </Route>
-
             <Route path="products">
               <Route index element={<List />} />
               <Route path=":productId" element={<Single />} />
               <Route
                 path="new"
-                element={<New inputs={productInputs} title="Add Failed Problem" />}
+                element={<New inputs={productInputs} title="Add Leetcode Problem" />}
               />
             </Route>
+
+            <Route path="users">
+              <Route index element={<FailedList />} />
+              <Route path=":userId" element={<Single />} />
+              <Route
+                path="new"
+                element={<New inputs={userInputs} title="Add Failed Problem" />}
+              />
+            </Route>
+            
           </Route>
         </Routes>
       </BrowserRouter>

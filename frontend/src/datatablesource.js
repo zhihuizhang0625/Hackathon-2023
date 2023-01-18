@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import Airtable from "airtable";
 
 const base = new Airtable({apiKey: 'keyQ0V1l9vBkHkLev'}).base('appJQ2e3Bms1nlD3B');
-export var userRows = [];
+// export var userRows = [];
 export function Datatablesource() {
   
   const [summary, setSummary] = useState([])
@@ -76,28 +76,28 @@ export const userColumns = [
   },
 ];
 
-//temporary data
-// export const userRows = [
-//   {
-//     "id": 1,
-//     "problem": "53. Maximum Subarray",
-//     "img": "https://user-images.githubusercontent.com/36547915/97088991-45da5d00-1652-11eb-900f-80d106540f4f.png",
-//     "difficulty": "Medium",
-//     "status": "Solved",
-//     "submission times": "2"
-// },{
-//     "id": 2,
-//     "problem": "55. Jump Game",
-//     "img": "https://user-images.githubusercontent.com/36547915/97088991-45da5d00-1652-11eb-900f-80d106540f4f.png",
-//     "difficulty": "Medium",
-//     "status": "Attempted",
-//     "submission times": "3"
-// },{
-//     "id": 3,
-//     "problem": "232. Implement Queue using Stacks",
-//     "img": "https://user-images.githubusercontent.com/36547915/97088991-45da5d00-1652-11eb-900f-80d106540f4f.png",
-//     "difficulty": "Easy",
-//     "status": "Attempted",
-//     "submission times": "1"
-// },
-// ];
+// temporary data
+export const userRows = [
+  {
+    "id": 1,
+    "problem": "53. Maximum Subarray",
+    "img": "https://user-images.githubusercontent.com/36547915/97088991-45da5d00-1652-11eb-900f-80d106540f4f.png",
+    "difficulty": "Medium",
+    "status": "Solved",
+    "submission times": "2"
+},{
+    "id": 2,
+    "problem": "55. Jump Game",
+    "img": "https://user-images.githubusercontent.com/36547915/97088991-45da5d00-1652-11eb-900f-80d106540f4f.png",
+    "difficulty": "Medium",
+    "status": "Attempted",
+    "submission times": "3"
+},{
+    "id": 3,
+    "problem": "232. Implement Queue using Stacks",
+    "img": "https://user-images.githubusercontent.com/36547915/97088991-45da5d00-1652-11eb-900f-80d106540f4f.png",
+    "difficulty": "Easy",
+    "status": "Attempted",
+    "submission times": "1"
+},
+];
