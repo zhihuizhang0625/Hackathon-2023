@@ -8,37 +8,15 @@ import { productInputs, userInputs } from "./formSource";
 import "./style/dark.scss";
 import { useContext, useEffect, useState } from "react";
 import { DarkModeContext } from "./context/darkModeContext";
-
+import {Datatablesource} from "./datatablesource";
 import Airtable from "airtable";
 
 const base = new Airtable({apiKey: 'keyQ0V1l9vBkHkLev'}).base('appJQ2e3Bms1nlD3B');
 
-
-
 function App() {
   
-  const [summary, setSummary] = useState([])
-  const [submission_history, setSubmission_history] = useState([])
+  Datatablesource();
 
-  useEffect(()=>{
-    base("summary")
-      .select({view: "Grid view"})
-      .eachPage((records, fetchNextPage)=>{
-        console.log(records[0].fields);
-        setSummary(records);
-        fetchNextPage();
-      })
-      base("submission_history")
-      .select({view: "Grid view"})
-      .eachPage((records, fetchNextPage)=>{
-        console.log(records[0].fields);
-        setSubmission_history(records);
-        fetchNextPage();
-      })
-   
-
-  }, []);
-  
   const { darkMode } = useContext(DarkModeContext);
 
   return (

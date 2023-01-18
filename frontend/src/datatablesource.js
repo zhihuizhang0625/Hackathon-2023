@@ -2,8 +2,8 @@ import { useContext, useEffect, useState } from "react";
 import Airtable from "airtable";
 
 const base = new Airtable({apiKey: 'keyQ0V1l9vBkHkLev'}).base('appJQ2e3Bms1nlD3B');
-
-function Datatablesource() {
+export var userRows = [];
+export function Datatablesource() {
   
   const [summary, setSummary] = useState([])
   const [submission_history, setSubmission_history] = useState([])
@@ -12,19 +12,26 @@ function Datatablesource() {
     base("summary")
       .select({view: "Grid view"})
       .eachPage((records, fetchNextPage)=>{
+        // console.log(records[0].fields);
+        console.log(records.length);
         console.log(records[0].fields);
+        for(var i = 0; i < records.length; i++){
+          userRows[i] = records[i].fields;
+          console.log(userRows[i]);
+          console.log(records[i].fields);
+        }
+        // console.log(userRows);
+
         setSummary(records);
         fetchNextPage();
       })
       base("submission_history")
       .select({view: "Grid view"})
       .eachPage((records, fetchNextPage)=>{
-        console.log(records[0].fields);
+        // console.log(records[0].fields);
         setSubmission_history(records);
         fetchNextPage();
       })
-   
-
   }, []);
 }
 
@@ -38,7 +45,7 @@ export const userColumns = [
     renderCell: (params) => {
       return (
         <div className="cellWithImg">
-          <img className="cellImg" src={params.row.img} alt="avatar" />
+          <img className="cellImg" src="https://user-images.githubusercontent.com/36547915/97088991-45da5d00-1652-11eb-900f-80d106540f4f.png" alt="avatar" />
           {params.row.problem}
         </div>
       );
@@ -70,27 +77,27 @@ export const userColumns = [
 ];
 
 //temporary data
-export const userRows = [
-  {
-    "id": 1,
-    "problem": "53. Maximum Subarray",
-    "img": "https://user-images.githubusercontent.com/36547915/97088991-45da5d00-1652-11eb-900f-80d106540f4f.png",
-    "difficulty": "Medium",
-    "status": "Solved",
-    "submission times": "2"
-},{
-    "id": 2,
-    "problem": "55. Jump Game",
-    "img": "https://user-images.githubusercontent.com/36547915/97088991-45da5d00-1652-11eb-900f-80d106540f4f.png",
-    "difficulty": "Medium",
-    "status": "Attempted",
-    "submission times": "3"
-},{
-    "id": 3,
-    "problem": "232. Implement Queue using Stacks",
-    "img": "https://user-images.githubusercontent.com/36547915/97088991-45da5d00-1652-11eb-900f-80d106540f4f.png",
-    "difficulty": "Easy",
-    "status": "Attempted",
-    "submission times": "1"
-},
-];
+// export const userRows = [
+//   {
+//     "id": 1,
+//     "problem": "53. Maximum Subarray",
+//     "img": "https://user-images.githubusercontent.com/36547915/97088991-45da5d00-1652-11eb-900f-80d106540f4f.png",
+//     "difficulty": "Medium",
+//     "status": "Solved",
+//     "submission times": "2"
+// },{
+//     "id": 2,
+//     "problem": "55. Jump Game",
+//     "img": "https://user-images.githubusercontent.com/36547915/97088991-45da5d00-1652-11eb-900f-80d106540f4f.png",
+//     "difficulty": "Medium",
+//     "status": "Attempted",
+//     "submission times": "3"
+// },{
+//     "id": 3,
+//     "problem": "232. Implement Queue using Stacks",
+//     "img": "https://user-images.githubusercontent.com/36547915/97088991-45da5d00-1652-11eb-900f-80d106540f4f.png",
+//     "difficulty": "Easy",
+//     "status": "Attempted",
+//     "submission times": "1"
+// },
+// ];
