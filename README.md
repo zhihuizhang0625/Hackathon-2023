@@ -1,6 +1,10 @@
 # My Leetcode Diary
 
+## Overview
 
+MyLeetcodeDiary is
+
+## Team Members
 
 ## Functions
 
@@ -11,8 +15,9 @@ A module that shows all past wrong question, rank by forgetting curve recommenda
 
 ## Tech-Stack
 
---Front-end--->  React + <br/>
---Back-end---> <br/>
+Front end--->  React + <br/>
+Back end---> <br/>
+Deploy---> Netlify
 
 ### To run the code:
 
