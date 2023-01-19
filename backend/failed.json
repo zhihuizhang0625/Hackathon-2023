@@ -1,0 +1,85 @@
+[{
+    "title": "53. Maximum Subarray",
+    "link": "https://leetcode.com/problems/maximum-subarray/",
+    "difficulty": "Medium",
+    "status": "Attempted",
+    "submission_history": [
+        {
+            "submission_status": "Time Limit Exceeded",
+            "submission_time": "May 30, 2022"
+        },
+        {
+            "submission_status": "Time Limit Exceeded",
+            "submission_time": "May 30, 2022"
+        }
+    ],
+    "submission_times": "2"
+},{
+    "title": "55. Jump Game",
+    "link": "https://leetcode.com/problems/jump-game/",
+    "difficulty": "Medium",
+    "status": "Attempted",
+    "submission_history": [
+        {
+            "submission_status": "Time Limit Exceeded",
+            "submission_time": "Aug 25, 2022"
+        },
+        {
+            "submission_status": "Time Limit Exceeded",
+            "submission_time": "Aug 25, 2022"
+        },
+        {
+            "submission_status": "Runtime Error",
+            "submission_time": "Aug 25, 2022"
+        }
+    ],
+    "submission_times": "3"
+},{
+    "title": "232. Implement Queue using Stacks",
+    "link": "https://leetcode.com/problems/implement-queue-using-stacks/",
+    "difficulty": "Easy",
+    "status": "Attempted",
+    "submission_history": [
+        {
+            "submission_status": "Runtime Error",
+            "submission_time": "Dec 06, 2022"
+        }
+    ],
+    "submission_times": "1"
+},{
+    "title": "309. Best Time to Buy and Sell Stock with Cooldown",
+    "link": "https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/",
+    "difficulty": "Medium",
+    "status": "Attempted",
+    "submission_history": [
+        {
+            "submission_status": "Wrong Answer",
+            "submission_time": "Oct 06, 2022"
+        }
+    ],
+    "submission_times": "1"
+},{
+    "title": "914. X of a Kind in a Deck of Cards",
+    "link": "https://leetcode.com/problems/x-of-a-kind-in-a-deck-of-cards/",
+    "difficulty": "Easy",
+    "status": "Attempted",
+    "submission_history": [
+        {
+            "submission_status": "Wrong Answer",
+            "submission_time": "Sep 21, 2022"
+        },
+        {
+            "submission_status": "Wrong Answer",
+            "submission_time": "Sep 21, 2022"
+        },
+        {
+            "submission_status": "Wrong Answer",
+            "submission_time": "Sep 21, 2022"
+        },
+        {
+            "submission_status": "Wrong Answer",
+            "submission_time": "Sep 21, 2022"
+        }
+    ],
+    "submission_times": "4"
+}]
