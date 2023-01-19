@@ -16,16 +16,20 @@ Qingzi Fu
 
 ## Functions
 
-Show leetcode problem name, difficulty level, status(passed/failed), time completed, practice times <br/>
-Hyperlink the problem to direct practice <br/>
-A module that shows all past wrong question, rank by forgetting curve recommendation <br/>
+- Show leetcode problem name, difficulty level, status(passed/failed), time completed, practice times
+
+- Hyperlink the problem to direct practice
+
+- A module that shows all past wrong question, rank by forgetting curve recommendation
 
 
 ## Tech-Stack
 
-Front end--->  React + <br/>
-Back end---> <br/>
-Deploy---> Netlify
+Front end: React +
+
+Back end:
+
+Deploy: Netlify
 
 ### To run the code:
 
