@@ -2,7 +2,9 @@
 
 ## Overview
 
-MyLeetcodeDiary is
+MyLeetcodeDiary is a tool 
+
+To use MyLeetcodeDiary, users need to
 
 ## Team Members
 
@@ -16,12 +18,11 @@ Qingzi Fu
 
 ## Functions
 
-- Show leetcode problem name, difficulty level, status(passed/failed), time completed, practice times
+- Show leetcode problem name, difficulty level, status(pass/fail), time completed, practice times
 
 - Hyperlink the problem to direct practice
 
 - A module that shows all past wrong question, rank by forgetting curve recommendation
-
 
 ## Tech-Stack
 
