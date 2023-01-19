@@ -8,7 +8,7 @@ MyLeetcodeDiary is
 
 Clara Zhang
 
-Luolin Pei
+Linpei Luo
 
 Rya Liu
 
@@ -16,7 +16,7 @@ Qingzi Fu
 
 ## Functions
 
-Show problem name, difficulty level, status(passed/failed), time completed, practice times <br/>
+Show leetcode problem name, difficulty level, status(passed/failed), time completed, practice times <br/>
 Hyperlink the problem to direct practice <br/>
 A module that shows all past wrong question, rank by forgetting curve recommendation <br/>
 
