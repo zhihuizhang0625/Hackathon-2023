@@ -5,6 +5,7 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import StaleElementReferenceException
 import json
 outfile = open("sample.json", "w") 
+outfile2 = open("failed.json", "w") 
 
 PATH = "/Users/czhang3/Desktop/chromedriver_mac64/chromedriver"
 driver = webdriver.Chrome(PATH)
@@ -12,6 +13,7 @@ driver.get('https://leetcode.com/')
 
 
 outfile.write('[')
+outfile2.write('[')
 
 time.sleep(3)
 sign_in = driver.find_element(by=By.XPATH, value="/html/body/div[2]/div/div[1]/div/div[1]/div[3]/div[1]/div/div/div[2]/div/a[5]")
@@ -168,6 +170,8 @@ while page in range(1, lastPage+1):
         # print(type(json_object))
         json_object = json.dumps(dictionary, indent=4)
         outfile.write(json_object)
+        outfile2.write(json_object)
+        outfile2.write(',')
         outfile.write(',')
         driver.back()
         time.sleep(3)
@@ -182,6 +186,7 @@ while page in range(1, lastPage+1):
     page_button.click()
     time.sleep(3)
     page+=1
+outfile2.write(']')
 
 
 

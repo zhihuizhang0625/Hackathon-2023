@@ -54,10 +54,13 @@ const Sidebar = () => {
           
           </Link>
           <p className="title">SERVICE</p>
+          
+          <Link to="/review" style={{ textDecoration: "none" }}>
           <li>
             <PsychologyOutlinedIcon className="icon" />
             <span>Review</span>
           </li>
+          </Link>
           <p className="title">USER</p>
           <li>
             <AccountCircleOutlinedIcon className="icon" />
