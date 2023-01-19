@@ -6,6 +6,14 @@ MyLeetcodeDiary is
 
 ## Team Members
 
+Clara Zhang
+
+Luolin Pei
+
+Rya Liu
+
+Qingzi Fu
+
 ## Functions
 
 Show problem name, difficulty level, status(passed/failed), time completed, practice times <br/>
