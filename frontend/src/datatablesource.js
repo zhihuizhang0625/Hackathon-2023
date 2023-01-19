@@ -2,39 +2,56 @@ import { useContext, useEffect, useState } from "react";
 import Airtable from "airtable";
 
 const base = new Airtable({apiKey: 'keyQ0V1l9vBkHkLev'}).base('appJQ2e3Bms1nlD3B');
-// export var userRows = [];
+
+var userRows = [];
+
+var submissionRows = [];
+
+
 export function Datatablesource() {
   
-  const [summary, setSummary] = useState([])
-  const [submission_history, setSubmission_history] = useState([])
 
   useEffect(()=>{
     base("summary")
       .select({view: "Grid view"})
       .eachPage((records, fetchNextPage)=>{
-        // console.log(records[0].fields);
-        console.log(records.length);
-        console.log(records[0].fields);
-        for(var i = 0; i < records.length; i++){
-          userRows[i] = records[i].fields;
-          console.log(userRows[i]);
-          console.log(records[i].fields);
+        var rows = [];
+        //console.log(records.length);
+        for(var i in records){
+          rows[i] ={
+            "id": i+1,
+            "problem": String(records[i].fields.title),
+            "img": "https://user-images.githubusercontent.com/36547915/97088991-45da5d00-1652-11eb-900f-80d106540f4f.png",
+            "difficulty": String(records[i].fields.difficulty),
+            "status": String(records[i].fields.status),
+            "submission times": String(records[i].fields.submission_times)
         }
-        // console.log(userRows);
-
-        setSummary(records);
+ }
+        userRows.push(rows);
         fetchNextPage();
       })
       base("submission_history")
       .select({view: "Grid view"})
       .eachPage((records, fetchNextPage)=>{
-        // console.log(records[0].fields);
-        setSubmission_history(records);
+        var rows = [];
+        //console.log(records);
+        for(var i = 0; i< records.length; i++){
+          rows[i] ={
+            id : i+1,
+            //key: String(records[i].fields.last_submission_status),
+            last_submission_status: String(records[i].fields.last_submission_status),
+            last_submission_time: String(records[i].fields.last_submission_time),
+            
+        }}
+        submissionRows.push(rows);
         fetchNextPage();
       })
   }, []);
-}
 
+}
+//console.log(userRows, submissionRows);
+
+ 
 export const userColumns = [
   
   { field: "id", headerName: "ID", width: 70 },
@@ -76,28 +93,10 @@ export const userColumns = [
   },
 ];
 
-// temporary data
-export const userRows = [
-  {
-    "id": 1,
-    "problem": "53. Maximum Subarray",
-    "img": "https://user-images.githubusercontent.com/36547915/97088991-45da5d00-1652-11eb-900f-80d106540f4f.png",
-    "difficulty": "Medium",
-    "status": "Solved",
-    "submission times": "2"
-},{
-    "id": 2,
-    "problem": "55. Jump Game",
-    "img": "https://user-images.githubusercontent.com/36547915/97088991-45da5d00-1652-11eb-900f-80d106540f4f.png",
-    "difficulty": "Medium",
-    "status": "Attempted",
-    "submission times": "3"
-},{
-    "id": 3,
-    "problem": "232. Implement Queue using Stacks",
-    "img": "https://user-images.githubusercontent.com/36547915/97088991-45da5d00-1652-11eb-900f-80d106540f4f.png",
-    "difficulty": "Easy",
-    "status": "Attempted",
-    "submission times": "1"
-},
-];
+//test
+//console.log(userRows);
+//console.log(submissionRows);
+
+
+export {userRows, submissionRows};
+  
