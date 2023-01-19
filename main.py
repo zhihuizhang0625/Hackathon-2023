@@ -1,301 +1,327 @@
-import requests
+from selenium.webdriver.common.by import By
+import time 
+from selenium import webdriver
+from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import StaleElementReferenceException
 import json
-  
+outfile = open("sample.json", "w") 
+outfile2 = open("failed.json", "w") 
+
+PATH = "/Users/czhang3/Desktop/chromedriver_mac64/chromedriver"
+driver = webdriver.Chrome(PATH)
+driver.get('https://leetcode.com/')
 
 
-AIRTABLE_BASE_ID = 'appJQ2e3Bms1nlD3B'
-AIRTABLE_API_KEY= 'keyQ0V1l9vBkHkLev'
-#AIRTABLE_TABLE_NAME =''
-AIRTABLE_OAUTH = 'patCSzdYGtv19W5R4.0958fccfc23a810a713ba93534c6c45f4dfe9f4cbeadd45dfbb65b290a73652f'
+outfile.write('[')
+outfile2.write('[')
 
-# table1 -create add update
-# create table
-def create_table1(AIRTABLE_TABLE_NAME = ''):
-    endpoint = f'https://api.airtable.com/v0/meta/bases/{AIRTABLE_BASE_ID}/tables'
-    headers = {
-        "Authorization": "Bearer " + str(AIRTABLE_OAUTH),
-        "Content-Type": "application/json"
-        }
+time.sleep(3)
+sign_in = driver.find_element(by=By.XPATH, value="/html/body/div[2]/div/div[1]/div/div[1]/div[3]/div[1]/div/div/div[2]/div/a[5]")
 
-    data =  {
-    "description": "create_table1",
-    "fields": [
-      {
-        "description": "Problem name",
-        "name": "title",
-        "type": "singleLineText",
-      },
-      {
-        "name": "link",
-        "type": "singleLineText",
-      },
-      {
-        "name": "difficulty",
-        "type": "singleLineText",
-      },
-      {
-        "name": "status",
-        "type": "singleLineText",
-      },
-      {
-        "name": "submission",
-        "type": "singleLineText",
-      },
-      {
-        "name": "submission_times",
-        "type": "singleLineText",
-      }
-   
+# time.sleep(2)
+
+sign_in.click()
+
+time.sleep(5)
+
+username = driver.find_element(by=By.XPATH, value="/html/body/div[1]/div/div[2]/div/div[2]/div/div/div/form/span[1]/input")
     
-    ],
-    "name": AIRTABLE_TABLE_NAME
-  }       
+# time.sleep(2)
 
-    r= requests.post(endpoint, json = data, headers = headers)
-    print(r)
+username.send_keys('clarajelly_')
+
+# time.sleep(1)
+
+password = driver.find_element(by=By.XPATH, value="/html/body/div[1]/div/div[2]/div/div[2]/div/div/div/form/span[2]/input")
+
+
+password.send_keys('Clara_0625')
+
+# time.sleep(1)
+
+sign_in_button = driver.find_element(by=By.XPATH, value="/html/body/div[1]/div/div[2]/div/div[2]/div/div/div/button/div")
+
+sign_in_button.click()
+
+time.sleep(5)
+
+problems = driver.find_element(by=By.XPATH, value="/html/body/div[1]/div/div/div[1]/div[3]/a")
+
+problems.click()
+
+time.sleep(5)
+
+
+
+
+# Attempted section
+
+solved_button= driver.find_element(by=By.XPATH, value="/html/body/div[1]/div/div[2]/div[1]/div[1]/div[6]/div[1]/div/div[1]/div[3]/div/button")
+
+solved_button.click()
+time.sleep(3)
+
+Attempted_problems = driver.find_element(by=By.XPATH, value="/html/body/div[1]/div/div[2]/div[1]/div[1]/div[6]/div[1]/div/div[1]/div[3]/div[2]/div[3]/div/div/span")
+
+Attempted_problems.click()
+
+time.sleep(3)
+
+page = 1
+page_button = driver.find_element(by=By.XPATH, value="/html/body/div[1]/div/div[2]/div[1]/div[1]/div[6]/div[3]/nav")
+page_total = 0
+children = page_button.find_elements_by_xpath("./child::*")
+for x in children:
+    page_total+=1
+# print(page_total)
+
+tableRows_Prefix="/html/body/div[1]/div/div[2]/div[1]/div[1]/div[6]/div[2]/div/div/div[2]/div["
+problem_title_End = "]/div[2]/div/div/div/div/a"
+difficulty_End = "]/div[5]/span"
+problem_button_End = "]/div[2]/div/div/div"
+
+pagePrefix = "/html/body/div[1]/div/div[2]/div[1]/div[1]/div[6]/div[3]/nav/button["
+buttonLimit = page_total - 1
+pageEnd = "]"
+pageXPath = pagePrefix + str(buttonLimit) + pageEnd
+lastPage_button = driver.find_element(by=By.XPATH, value=pageXPath)
+lastPage = int(lastPage_button.text)
+nextPage_XPath = pagePrefix + str(page_total) + pageEnd
+# print(lastPage)
+
+while page in range(1, lastPage+1):     
+    tableRows = driver.find_elements(by=By.XPATH, value="/html/body/div[1]/div/div[2]/div[1]/div[1]/div[6]/div[2]/div/div/div[2]/div")
+    i = 1
+    svgPrefix = '#__next > div > div.mx-auto.mt-\[50px\].w-full.grow.p-4.md\:mt-0.md\:max-w-\[888px\].md\:p-6.lg\:max-w-screen-xl > div.grid.grid-cols-4.gap-4.md\:grid-cols-3.lg\:grid-cols-4.lg\:gap-6 > div.col-span-4.z-base.md\:col-span-2.lg\:col-span-3 > div:nth-child(7) > div.-mx-4.md\:mx-0 > div > div > div:nth-child(2) > div:nth-child('
+    svgEnd = ') > div:nth-child(1) > svg'
+    time.sleep(3)
+    for e in tableRows:
+        if(page ==1 and i ==1):
+            i+=1
+            continue
+        problem_title_xpath = tableRows_Prefix+str(i)+problem_title_End
+        problem_location = driver.find_element(by=By.XPATH, value=problem_title_xpath)
+        problem_title = problem_location.text
+        print(problem_title)
+        problem_link = problem_location.get_attribute('href')
+        print(problem_link)
+        # time.sleep(2)
+        difficulty_xpath = tableRows_Prefix+str(i)+difficulty_End
+        # print(difficulty_xpath)
+        difficulty_location = driver.find_element(by=By.XPATH, value=difficulty_xpath)
+        difficulty = difficulty_location.text
+        print(difficulty)
     
-# import records
-def add_to_airtable1(title = "", link = None, difficulty = None, status = None, submission_history = None, submission_times = None, AIRTABLE_TABLE_NAME = ''):
-    endpoint = f'https://api.airtable.com/v0/{AIRTABLE_BASE_ID}/{AIRTABLE_TABLE_NAME}'
-    headers = {
-        "Authorization": "Bearer " + str(AIRTABLE_API_KEY),
-        "Content-Type": "application/json"
-        }
+        # time.sleep(2)
+        cssSelector = svgPrefix + str(i) + svgEnd
+        try:
+            status_svg = driver.find_element(By.CSS_SELECTOR, cssSelector)
+            status = status_svg.get_attribute('class')
+            if 'green' in status:
+                status = 'Solved'
+            if 'yellow' in status:
+                status = 'Attempted'
+        except NoSuchElementException:
+            status = 'To do'
+        print(status)
+        problem_button_xpath = tableRows_Prefix+str(i)+problem_button_End
+        problem_button = driver.find_element(by=By.XPATH, value=problem_button_xpath)
+        problem_button.click()
+        time.sleep(5)
+        submissions_button = driver.find_element(by=By.XPATH, value="/html/body/div[1]/div/div/div/div/div/div[1]/div/div/div/div[1]/div/div/a[4]/div")
+        submissions_button.click()
+        time.sleep(5)
+        submission_prefix = "/html/body/div[1]/div/div/div/div/div/div[1]/div/div/div/div[2]/div/div[2]/div["
+        submission_endpath="]/div[1]/div[1]/div/div/span"
+        dates_endpath = "]/div[1]/div[1]/span"
+        submissionRows = driver.find_elements(by=By.XPATH, value="/html/body/div[1]/div/div/div/div/div/div[1]/div/div/div/div[2]/div/div[2]/div")
+        submission_count = 0
+        problem_string = '{"title": "' + problem_title + '", "link": "' + problem_link + '", "difficulty": "' + difficulty + '", "status": "' + status + '", "submission_history": ['
+        for s in submissionRows:
+            # submission = s.find_element(by=By.XPATH, value=".//div[1]/div[1]/div/div/span")
+            # print(submission.text)
+            try:
+                submission_count += 1
+                submission_path = submission_prefix + str(submission_count)+ submission_endpath
+                submission_location = s.find_element(by=By.XPATH, value=submission_path)
+                submission = submission_location.text
+                print(submission)
+                dates_path = submission_prefix + str(submission_count)+ dates_endpath
+                dates_location = driver.find_element(by=By.XPATH, value=dates_path)
+                dates = dates_location.text
+                print(dates)
+                if(submission_count == 1) :
+                    problem_string = problem_string + '{"submission_status" :"' + submission +'", "submission_time": "' + dates + '"}'
+                else:
+                    problem_string = problem_string + ',{"submission_status" :"' + submission +'", "submission_time": "' + dates + '"}'
+            except NoSuchElementException:
+                break
+            except StaleElementReferenceException:
+                break
+        submission_count-=1
+        print(submission_count)
+        # back_svg = driver.find_element(By.CSS_SELECTOR,"#__next > div > div > div > nav > div > div > div.absolute.left-\[50\%\].hidden.-translate-x-2\/4.items-center.space-x-4.lc-md\:flex > div.flex.cursor-pointer.items-center.space-x-2 > svg")
+        # back_svg.click()
+        problem_string = problem_string + '], "submission_times": "' + str(submission_count)+'"}' 
+        print(problem_string)
+        # print(type(problem_string))
+        dictionary = json.loads(problem_string)
+        print(dictionary)
+        # print(type(json_object))
+        json_object = json.dumps(dictionary, indent=4)
+        outfile.write(json_object)
+        outfile2.write(json_object)
+        outfile2.write(',')
+        outfile.write(',')
+        driver.back()
+        time.sleep(3)
+        driver.back()
+        time.sleep(3)
+        i+=1
+        time.sleep(3)
+    if (page == lastPage):
+        break
+    page_button = driver.find_element(by=By.XPATH, value=nextPage_XPath)
 
-    data =  {
-          "records": [
-            {
-              "fields": {
-                "title": title,
-                "link": link,
-                "difficulty": difficulty,
-                "status": status,
-                "submission": submission_history,
-                "submission_times": submission_times,
-              }
-            }
-     
-          ]
-        }       
+    page_button.click()
+    time.sleep(3)
+    page+=1
+outfile2.write(']')
 
-    r= requests.post(endpoint, json = data, headers = headers)
-    print(r)
 
-#  update records
-def update_records1(AIRTABLE_TABLE_NAME = ''):
-    endpoint = f'https://api.airtable.com/v0/{AIRTABLE_BASE_ID}/{AIRTABLE_TABLE_NAME}'
-    headers = {
-        "Authorization": "Bearer " + str(AIRTABLE_API_KEY),
-        "Content-Type": "application/json"
-        }
 
-    data = {
-    "records": [
-      {
-        "fields": {
-          "Name": "def",
-          "Email": "abc@gmail.com"
-        },
-        "id": "recqhmz9ZSZFSh8WP"
-      },
-      {
-        "fields": {
-          "Name": "clara",
-          "Email": "wefsv@gmail.com"
-        },
-        "id": "recd0xzqL0uI098WH"
-      }
-    ]
-  } 
 
-    r= requests.patch(endpoint, json = data, headers = headers)
-    print(endpoint)
+
+# Solved section
+
+solved_button= driver.find_element(by=By.XPATH, value="/html/body/div[1]/div/div[2]/div[1]/div[1]/div[6]/div[1]/div/div[1]/div[3]/div/button")
+
+solved_button.click()
+time.sleep(3)
+
+solved_problems = driver.find_element(by=By.XPATH, value="/html/body/div[1]/div/div[2]/div[1]/div[1]/div[6]/div[1]/div/div[1]/div[3]/div[2]/div[2]/div/div/span")
+
+solved_problems.click()
+
+time.sleep(3)
+
+page = 1
+page_button = driver.find_element(by=By.XPATH, value="/html/body/div[1]/div/div[2]/div[1]/div[1]/div[6]/div[3]/nav")
+page_total = 0
+children = page_button.find_elements_by_xpath("./child::*")
+for x in children:
+    page_total+=1
+# print(page_total)
+
+tableRows_Prefix="/html/body/div[1]/div/div[2]/div[1]/div[1]/div[6]/div[2]/div/div/div[2]/div["
+problem_title_End = "]/div[2]/div/div/div/div/a"
+difficulty_End = "]/div[5]/span"
+problem_button_End = "]/div[2]/div/div/div"
+
+pagePrefix = "/html/body/div[1]/div/div[2]/div[1]/div[1]/div[6]/div[3]/nav/button["
+buttonLimit = page_total - 1
+pageEnd = "]"
+pageXPath = pagePrefix + str(buttonLimit) + pageEnd
+lastPage_button = driver.find_element(by=By.XPATH, value=pageXPath)
+lastPage = int(lastPage_button.text)
+nextPage_XPath = pagePrefix + str(page_total) + pageEnd
+# print(lastPage)
+
+while page in range(1, lastPage+1):     
+    tableRows = driver.find_elements(by=By.XPATH, value="/html/body/div[1]/div/div[2]/div[1]/div[1]/div[6]/div[2]/div/div/div[2]/div")
+    i = 1
+    svgPrefix = '#__next > div > div.mx-auto.mt-\[50px\].w-full.grow.p-4.md\:mt-0.md\:max-w-\[888px\].md\:p-6.lg\:max-w-screen-xl > div.grid.grid-cols-4.gap-4.md\:grid-cols-3.lg\:grid-cols-4.lg\:gap-6 > div.col-span-4.z-base.md\:col-span-2.lg\:col-span-3 > div:nth-child(7) > div.-mx-4.md\:mx-0 > div > div > div:nth-child(2) > div:nth-child('
+    svgEnd = ') > div:nth-child(1) > svg'
+    time.sleep(3)
+    for e in tableRows:
+        if(page ==1 and i ==1):
+            i+=1
+            continue
+        problem_title_xpath = tableRows_Prefix+str(i)+problem_title_End
+        problem_location = driver.find_element(by=By.XPATH, value=problem_title_xpath)
+        problem_title = problem_location.text
+        print(problem_title)
+        problem_link = problem_location.get_attribute('href')
+        print(problem_link)
+        # time.sleep(2)
+        difficulty_xpath = tableRows_Prefix+str(i)+difficulty_End
+        # print(difficulty_xpath)
+        difficulty_location = driver.find_element(by=By.XPATH, value=difficulty_xpath)
+        difficulty = difficulty_location.text
+        print(difficulty)
     
-    print(r)
-    
-
-
-#table 2
-# table1 -create add update
-# create table
-def create_table2(AIRTABLE_TABLE_NAME = ''):
-    endpoint = f'https://api.airtable.com/v0/meta/bases/{AIRTABLE_BASE_ID}/tables'
-    headers = {
-        "Authorization": "Bearer " + str(AIRTABLE_OAUTH),
-        "Content-Type": "application/json"
-        }
-
-    data =  {
-    "description": "create_table2",
-    "fields": [
-      {
-        "description": "Submission history",
-        "name": "last_submission_status",
-        "type": "singleLineText",
-      },
-      {
-        "name": "last_submission_time",
-        "type": "singleLineText",
-      },
-      {
-        "name": "last_2th_submission_status",
-        "type": "singleLineText",
-      },
-      {
-        "name": "last_2th_submission_time",
-        "type": "singleLineText",
-      },
-      {
-        "name": "last_3th_submission_status",
-        "type": "singleLineText",
-      },
-      {
-        "name": "last_3th_submission_time",
-        "type": "singleLineText",
-      },
-      {
-        "name": "last_4th_submission_status",
-        "type": "singleLineText",
-      },{
-        "name": "last_4th_submission_time",
-        "type": "singleLineText",
-      },{
-        "name": "last_5th_submission_status",
-        "type": "singleLineText",
-      },{
-        "name": "last_5th_submission_time",
-        "type": "singleLineText",
-      },
-   
-    
-    ],
-    "name": AIRTABLE_TABLE_NAME
-  }       
-
-    r= requests.post(endpoint, json = data, headers = headers)
-    print(r)
-    
-# import records
-def add_to_airtable2(sub1_status = None, sub1_time = None, sub2_status = None, sub2_time = None,sub3_status = None, sub3_time = None,sub4_status = None, sub4_time = None,sub5_status = None, sub5_time = None, AIRTABLE_TABLE_NAME = ''):
-    endpoint = f'https://api.airtable.com/v0/{AIRTABLE_BASE_ID}/{AIRTABLE_TABLE_NAME}'
-    headers = {
-        "Authorization": "Bearer " + str(AIRTABLE_API_KEY),
-        "Content-Type": "application/json"
-        }
-
-    data =  {
-          "records": [
-            {
-              "fields": {
-                "last_submission_status": sub1_status,
-                "last_submission_time": sub1_time,
-                "last_2th_submission_status": sub2_status,
-                "last_2th_submission_time": sub2_time,
-                "last_3th_submission_status": sub3_status,
-                "last_3th_submission_time": sub3_time,
-                "last_4th_submission_status": sub4_status,
-                "last_4th_submission_time": sub4_time,
-                "last_5th_submission_status": sub5_status,
-                "last_5th_submission_time": sub5_time,
-                
-                
-                
-                
-              }
-            }
-     
-          ]
-        }       
-
-    r= requests.post(endpoint, json = data, headers = headers)
-    print(r)
-
-#  update records
-def update_records2(sub1_status = None, sub1_time = None, sub2_status = None, sub2_time = None,sub3_status = None, sub3_time = None,sub4_status = None, sub4_time = None,sub5_status = None, sub5_time = None,AIRTABLE_TABLE_NAME = ''):
-    endpoint = f'https://api.airtable.com/v0/{AIRTABLE_BASE_ID}/{AIRTABLE_TABLE_NAME}'
-    headers = {
-        "Authorization": "Bearer " + str(AIRTABLE_API_KEY),
-        "Content-Type": "application/json"
-        }
-
-    data = {
-    "records": [
-      {
-         "fields": {
-                "last_submission_status": sub1_status,
-                "last_submission_time": sub1_time,
-                "last_2th_submission_status": sub2_status,
-                "last_2th_submission_time": sub2_time,
-                "last_3th_submission_status": sub3_status,
-                "last_3th_submission_time": sub3_time,
-                "last_4th_submission_status": sub4_status,
-                "last_4th_submission_time": sub4_time,
-                "last_5th_submission_status": sub5_status,
-                "last_5th_submission_time": sub5_time,
-                
-        },
-        "id": "recqhmz9ZSZFSh8WP"
-      }
-    ]
-  } 
-
-    r= requests.patch(endpoint, json = data, headers = headers)
-    print(endpoint)
-    
-    print(r)
-    
-
-
-def load_sample():
-    create_table1('summary')
-    create_table2('submission_history')
-
-    # Opening JSON file
-    f = open('sample.json')
-    
-    # returns JSON object as 
-    # a dictionary
-    data = json.load(f)
-      
-    #print(data)
-    # Iterating through the json
-    # list
-    for i in data:
-      add_to_airtable1(i['title'], i['link'],i['difficulty'],i['status'],str(i['submission_history']),i['submission_times'], 'summary')
-      
-      if(len(i['submission_history']) < 5):
-
-        sub_status = []
-        sub_time = []
-        num = len(i['submission_history'])
-
-        for j in range(num):
-          #print(j)
-          sub_status.append(i['submission_history'][-(j+1)]['submission_status'])
-          print(sub_status[j])
-          sub_time.append(i['submission_history'][-(j+1)]['submission_time'])
+        # time.sleep(2)
+        cssSelector = svgPrefix + str(i) + svgEnd
+        try:
+            status_svg = driver.find_element(By.CSS_SELECTOR, cssSelector)
+            status = status_svg.get_attribute('class')
+            if 'green' in status:
+                status = 'Solved'
+            if 'yellow' in status:
+                status = 'Attempted'
+        except NoSuchElementException:
+            status = 'To do'
+        print(status)
+        problem_button_xpath = tableRows_Prefix+str(i)+problem_button_End
+        problem_button = driver.find_element(by=By.XPATH, value=problem_button_xpath)
+        problem_button.click()
+        time.sleep(5)
+        submissions_button = driver.find_element(by=By.XPATH, value="/html/body/div[1]/div/div/div/div/div/div[1]/div/div/div/div[1]/div/div/a[4]/div")
+        submissions_button.click()
+        time.sleep(5)
+        submission_prefix = "/html/body/div[1]/div/div/div/div/div/div[1]/div/div/div/div[2]/div/div[2]/div["
+        submission_endpath="]/div[1]/div[1]/div/div/span"
+        dates_endpath = "]/div[1]/div[1]/span"
+        submissionRows = driver.find_elements(by=By.XPATH, value="/html/body/div[1]/div/div/div/div/div/div[1]/div/div/div/div[2]/div/div[2]/div")
+        submission_count = 0
+        problem_string = '{"title": "' + problem_title + '", "link": "' + problem_link + '", "difficulty": "' + difficulty + '", "status": "' + status + '", "submission_history": ['
+        for s in submissionRows:
+            # submission = s.find_element(by=By.XPATH, value=".//div[1]/div[1]/div/div/span")
+            # print(submission.text)
+            try:
+                submission_count += 1
+                submission_path = submission_prefix + str(submission_count)+ submission_endpath
+                submission_location = s.find_element(by=By.XPATH, value=submission_path)
+                submission = submission_location.text
+                print(submission)
+                dates_path = submission_prefix + str(submission_count)+ dates_endpath
+                dates_location = driver.find_element(by=By.XPATH, value=dates_path)
+                dates = dates_location.text
+                print(dates)
+                if(submission_count == 1) :
+                    problem_string = problem_string + '{"submission_status" :"' + submission +'", "submission_time": "' + dates + '"}'
+                else:
+                    problem_string = problem_string + ',{"submission_status" :"' + submission +'", "submission_time": "' + dates + '"}'
+            except NoSuchElementException:
+                break
+            except StaleElementReferenceException:
+                break
+        submission_count-=1
+        print(submission_count)
+        # back_svg = driver.find_element(By.CSS_SELECTOR,"#__next > div > div > div > nav > div > div > div.absolute.left-\[50\%\].hidden.-translate-x-2\/4.items-center.space-x-4.lc-md\:flex > div.flex.cursor-pointer.items-center.space-x-2 > svg")
+        # back_svg.click()
+        problem_string = problem_string + '], "submission_times": "' + str(submission_count)+'"}' 
+        print(problem_string)
+        # print(type(problem_string))
+        dictionary = json.loads(problem_string)
+        print(dictionary)
+        # print(type(json_object))
+        json_object = json.dumps(dictionary, indent=4)
+        outfile.write(json_object)
+        outfile.write(',')
         
-        for k in range(num , 5) :
-          sub_status.append(None)
-          sub_time.append(None)
+        driver.back()
+        time.sleep(3)
+        driver.back()
+        time.sleep(3)
+        i+=1
+        time.sleep(3)
+    if (page == lastPage):
+        break
+    page_button = driver.find_element(by=By.XPATH, value=nextPage_XPath)
 
-        add_to_airtable2(sub_status[0], sub_time[0], sub_status[1], sub_time[1], sub_status[2], sub_time[2], sub_status[3], sub_time[3], sub_status[4], sub_time[4], 'submission_history')
+    page_button.click()
+    time.sleep(3)
+    page+=1
 
-      else: add_to_airtable2(i['submission_history'][-1]['submission_status'],\
-                          i['submission_history'][-1]['submission_time'],\
-                          i['submission_history'][-2]['submission_status'],\
-                          i['submission_history'][-2]['submission_time'],\
-                          i['submission_history'][-3]['submission_status'],\
-                          i['submission_history'][-3]['submission_time'],\
-                          i['submission_history'][-4]['submission_status'],\
-                          i['submission_history'][-4]['submission_time'],\
-                          i['submission_history'][-5]['submission_status'],\
-                          i['submission_history'][-5]['submission_time'],\
-                          'submission_history')
-
-
-    # Closing file
-    f.close()
-
-#load sample
-load_sample()
+outfile.write(']')
