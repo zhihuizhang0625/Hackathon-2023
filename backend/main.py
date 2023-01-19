@@ -246,16 +246,23 @@ def update_records2(sub1_status = None, sub1_time = None, sub2_status = None, su
     
 
 
+    r= requests.post(endpoint, json = data, headers = headers)
+    print(r)
+
+
 def load_sample():
     create_table1('summary')
     create_table2('submission_history')
+    create_table1('failed_problems')
 
     # Opening JSON file
     f = open('sample.json')
+    f2 = open('failed.json')
     
     # returns JSON object as 
     # a dictionary
     data = json.load(f)
+    failed_data = json.load(f2)
       
     #print(data)
     # Iterating through the json
@@ -296,6 +303,15 @@ def load_sample():
 
     # Closing file
     f.close()
+    
+    for i in data:
+      add_to_airtable1(i['title'], i['link'],i['difficulty'],i['status'],str(i['submission_history']),i['submission_times'], 'failed_problems')
+      
+                 
+
+
+    # Closing file
+    f2.close()
 
 #load sample
 load_sample()
